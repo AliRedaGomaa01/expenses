@@ -10,6 +10,15 @@ export default function GuestLayout({ children }) {
                 </Link>
             </div>
 
+            <div className='m-5 bg-white rounded-xl grid grid-cols-2 gap-3'>
+                <Link href={ route('register') } className={`${ route().current('register') ? 'active' :  '' } p-3 rounded-xl`}>
+                    تسجيل جديد 
+                </Link>
+                <Link href={ route('login') } className={`${ route().current('login')? 'active' : '' }  p-3 rounded-xl`}>
+                    تسجيل الدخول 
+                </Link>
+            </div>
+
             <div className="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
                 {children}
             </div>

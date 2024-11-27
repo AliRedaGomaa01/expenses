@@ -17,12 +17,10 @@ export default function ForgotPassword({ status }) {
 
     return (
         <GuestLayout>
-            <Head title="Forgot Password" />
+            <Head title="نسيان كلمة السر" />
 
             <div className="mb-4 text-sm text-gray-600">
-                Forgot your password? No problem. Just let us know your email
-                address and we will email you a password reset link that will
-                allow you to choose a new one.
+                نسيت كلمة المرور ؟ لا مشكلة فقط أعملنا ببريدك الالكتروني لنقوم بإرسال لك رابط استعادة كلمة المرور لتحديد كلمة مرور جديدة.
             </div>
 
             {status && (
@@ -37,6 +35,7 @@ export default function ForgotPassword({ status }) {
                     type="email"
                     name="email"
                     value={data.email}
+                    placeholder="البريد الالكتروني"
                     className="mt-1 block w-full"
                     isFocused={true}
                     onChange={(e) => setData('email', e.target.value)}
@@ -46,7 +45,7 @@ export default function ForgotPassword({ status }) {
 
                 <div className="mt-4 flex items-center justify-end">
                     <PrimaryButton className="ms-4" disabled={processing}>
-                        Email Password Reset Link
+                        رابط استعادة كلمة المرور
                     </PrimaryButton>
                 </div>
             </form>
