@@ -4,6 +4,8 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
+import validatePassword from '@/Helpers/validatePassword.js';
+import { useEffect, useState } from 'react';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -13,9 +15,15 @@ export default function Register() {
         password_confirmation: '',
     });
 
+    const [passwordError, setPasswordError] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
     const submit = (e) => {
         e.preventDefault();
 
+        if (!!passwordError) {
+            return;
+        }
         post(route('register'), {
             onFinish: () => reset('password', 'password_confirmation'),
         });
@@ -65,16 +73,18 @@ export default function Register() {
 
                     <TextInput
                         id="password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         name="password"
                         value={data.password}
                         className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) => setData('password', e.target.value)}
+                        onChange={(e) => { setData('password', e.target.value) ; setPasswordError(validatePassword(e.target.value)) }}
                         required
                     />
 
+                    <small className='text-sm text-blue-600 underline inline cursor-pointer' onClick={() => setShowPassword( prev => !prev )} > { !showPassword ?  ' عرض كلمة المرور ' : 'اخفاء كلمة المرور' } </small>
+
                     <InputError message={errors.password} className="mt-2" />
+                    <InputError message={passwordError} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
@@ -85,7 +95,7 @@ export default function Register() {
 
                     <TextInput
                         id="password_confirmation"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         name="password_confirmation"
                         value={data.password_confirmation}
                         className="mt-1 block w-full"

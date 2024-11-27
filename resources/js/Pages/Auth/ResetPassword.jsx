@@ -4,8 +4,13 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, useForm } from '@inertiajs/react';
+import validatePassword from '@/Helpers/validatePassword.js';
+import { useEffect, useState } from 'react';
 
 export default function ResetPassword({ token, email }) {
+    const [passwordError, setPasswordError] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
     const { data, setData, post, processing, errors, reset } = useForm({
         token: token,
         email: email,
@@ -15,6 +20,10 @@ export default function ResetPassword({ token, email }) {
 
     const submit = (e) => {
         e.preventDefault();
+        
+        if (!!passwordError) {
+            return;
+        }
 
         post(route('password.store'), {
             onFinish: () => reset('password', 'password_confirmation'),
@@ -47,16 +56,18 @@ export default function ResetPassword({ token, email }) {
 
                     <TextInput
                         id="password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         name="password"
                         value={data.password}
                         className="mt-1 block w-full"
                         autoComplete="new-password"
                         isFocused={true}
-                        onChange={(e) => setData('password', e.target.value)}
-                    />
+                        onChange={(e) => { setData('password', e.target.value) ; setPasswordError(validatePassword(e.target.value)) }}
+                    />                    
+                    <small className='text-sm text-blue-600 underline inline cursor-pointer' onClick={() => setShowPassword( prev => !prev )} > { !showPassword ?  ' عرض كلمة المرور ' : 'اخفاء كلمة المرور' } </small>
 
                     <InputError message={errors.password} className="mt-2" />
+                    <InputError message={passwordError} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
@@ -66,7 +77,7 @@ export default function ResetPassword({ token, email }) {
                     />
 
                     <TextInput
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         id="password_confirmation"
                         name="password_confirmation"
                         value={data.password_confirmation}
