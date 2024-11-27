@@ -45,4 +45,17 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    # relations
+    public function dates()
+    {
+        return $this->hasMany(Date::class);
+    } 
+
+    # overrides 
+    public function delete()
+    {
+        $this->dates()->delete();
+        parent::delete();
+    }
 }
