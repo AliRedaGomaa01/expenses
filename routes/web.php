@@ -15,9 +15,9 @@ Route::get('/', function () {
     ]);
 });
 
-// Route::get('extract', [HomeController::class, 'extractBuildToPublic'])->name('extract-build');
-// Route::get('archive', [HomeController::class, 'archiveBuild'])->name('archive-build');
-// Route::get('command', [HomeController::class, 'command'])->name('command');
+Route::get('extract', [HomeController::class, 'extractBuildToPublic'])->name('extract-build');
+Route::get('archive', [HomeController::class, 'archiveBuild'])->name('archive-build');
+Route::get('command', [HomeController::class, 'command'])->name('command');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
