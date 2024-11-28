@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Date;
 use App\Enums\CategoryEnum;
 use Illuminate\Http\Request;
@@ -11,13 +12,52 @@ class DateController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $dates = auth()->user()->dates()
-                ->orderBy('date','desc')
-                ->get();
+        $categories = CategoryEnum::toArray();
 
-        return inertia('Expenses/Index', compact('dates'));
+        $categoryIds = implode(',', (collect($categories)->pluck('id')->toArray()));
+
+        $filters = $request->validate([
+            'start_date' => ['nullable', 'string'],
+            'end_date' => ['nullable', 'string'],
+            'category_id' => ['nullable', 'numeric', 'in:' . $categoryIds],
+        ]);
+
+
+        if (!empty($filters['name'])) {
+            dd($filters);
+        }
+
+        $dates = auth()->user()->dates()->filters($filters)
+            ->orderBy('date', 'desc')
+            ->paginate(20);
+
+        $expensesSum = auth()->user()->dates()->filters($filters)
+            ->with([
+                'expenses' => fn($query) => $query->filters($filters)
+            ])
+            ->get()
+            ->flatMap->expenses
+            ->sum('price');
+
+        $expenseData = [
+            'sum' => $expensesSum,
+            'startDate' => auth()->user()->dates()->filters($filters)->min('date'),
+            'endDate' => auth()->user()->dates()->filters($filters)->max('date')
+        ];
+
+        // Assume these are your two dates
+        $startDate = Carbon::parse($expenseData['startDate']);
+        $endDate = Carbon::parse($expenseData['endDate']);
+
+        // Calculate the number of days between the two dates
+        $daysBetween = $startDate->diffInDays($endDate);
+
+        $expenseData['daysBetween'] = $daysBetween;
+        $expenseData['averagePerDay'] = number_format($expenseData['sum'] / $daysBetween, 2);
+
+        return inertia('Expenses/Index', compact('dates', 'categories', 'expenseData', 'filters'));
     }
 
     /**
@@ -44,10 +84,10 @@ class DateController extends Controller
         $categories = CategoryEnum::toArray();
 
         $date->load('expenses');
-        
+
         $date->update(['expenses_sum' => $date->expenses->sum('price')]);
 
-        return inertia('Expenses/Show', compact('date' , 'categories'));
+        return inertia('Expenses/Show', compact('date', 'categories'));
     }
 
     /**

@@ -23,7 +23,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
+    Route::delete('expenses/delete-all', [ExpensesController::class , 'deleteAll'])->name('expenses.delete-all');
+    Route::post('expenses/seed', [ExpensesController::class , 'seed'])->name('expenses.seed');
     Route::resource('expenses', ExpensesController::class)->only('create', 'store', 'update' , 'destroy');
+    
     Route::resource('date', DateController::class)->only('index', 'show');
 });
 

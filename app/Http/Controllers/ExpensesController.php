@@ -25,7 +25,7 @@ class ExpensesController extends Controller
     public function create()
     {
         $categories = CategoryEnum::toArray();
-        return inertia('Expenses/Create' , compact('categories'));
+        return inertia('Expenses/Create', compact('categories'));
     }
 
     /**
@@ -35,17 +35,17 @@ class ExpensesController extends Controller
     {
         $validated = $request->validated();
 
-        DB::transaction(function () use (&$date , $validated) {
+        DB::transaction(function () use (&$date, $validated) {
             $date = auth()->user()->dates()->firstOrCreate(collect($validated)->only('date')->toArray());
-            
+
             foreach ($validated['expenses'] as $expense) {
                 $date->expenses()->create($expense);
             }
 
             $date->update(['expenses_sum' => $date->expenses->sum('price')]);
         });
-        
-        return Inertia::location(route('date.show' , $date->id));
+
+        return Inertia::location(route('date.show', $date->id));
     }
 
     /**
@@ -84,15 +84,51 @@ class ExpensesController extends Controller
     public function destroy(Expenses $expense)
     {
         $date = $expense->date;
-        
+
         $expense->delete();
-        
-        if ( $date->expenses->count() === 0 ) {
+
+        if ($date->expenses->count() === 0) {
             $date->delete();
             return redirect()->route('dates.index');
         } else {
             $date->update(['expenses_sum' => $date->expenses->sum('price')]);
             return response()->json(['status' => 'success']);
         }
+    }
+
+    public function seed()
+    {
+
+        foreach (range(1, 30) as $day) {
+            DB::transaction(function () use (&$day) {
+                $date = auth()->user()->dates()->firstOrCreate([
+                    'date' => "2001-" . rand(1, 12) . "-$day",
+                ]);
+
+                $expenses = [];
+
+                foreach (['a', 'b', 'c'] as $expenseName) {
+                    $expenses[] = [
+                        'name' => $expenseName . $day . rand(10, 30),
+                        'price' => rand(10, 30),
+                        'category_id' => rand(1, 3), // CategoryEnum
+                        'date_id' => $date->id,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+
+                Expenses::insert($expenses);
+
+                $date->update(['expenses_sum' => $date->expenses->sum('price')]);
+            });
+        }
+        return Inertia::location(route('date.index'));
+    }
+
+    public function deleteAll()
+    {
+        auth()->user()->dates()->delete();
+        return Inertia::location(route('date.index'));
     }
 }

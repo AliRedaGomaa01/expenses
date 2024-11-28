@@ -6,4 +6,13 @@
     .active {
         @apply underline font-bold opacity-80 outline-slate-600 decoration-slate-600 bg-gray-50;
     }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none; /* Hide scrollbar on WebKit browsers */
+    }
+    
+    .scrollbar-hide {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
 }
