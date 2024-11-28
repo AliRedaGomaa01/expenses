@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DateController;
 use App\Http\Controllers\ExpensesController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('expenses', ExpensesController::class)->only('create', 'store', 'update' , 'destroy');
     
     Route::resource('date', DateController::class)->only('index', 'show');
+
+    Route::get('extract-build', [HomeController::class, 'extractBuildToPublic'])->name('extract-build');
 });
 
 require __DIR__.'/auth.php';
