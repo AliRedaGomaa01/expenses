@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\File;
 
 class HomeController extends Controller
 {
-
     function extractBuildToPublic()
     {
         $directoryPath = public_path('build');
@@ -18,33 +17,54 @@ class HomeController extends Controller
         if (File::exists($directoryPath)) {
             if (File::isDirectory($directoryPath)) {
                 File::deleteDirectory($directoryPath);
-                echo "Directory deleted successfully.";
+                echo "Directory deleted successfully.\n";
             } else {
-                echo "Path exists but is not a directory.";
+                echo "Path exists but is not a directory.\n";
             }
         } else {
-            echo "Directory does not exist.";
+            echo "Directory does not exist.\n";
         }
-
+        
         $zipFilePath = base_path('public/build.zip');
-
         $destinationPath = base_path('public/build');
-
+        
         if (!file_exists($zipFilePath)) {
-            return "The zip file does not exist at path: $zipFilePath";
+            echo "The ZIP file does not exist at path: $zipFilePath\n";
+            return;
         }
-
+        
         if (!File::exists($destinationPath)) {
             File::makeDirectory($destinationPath, 0755, true);
         }
-
+        
         $zip = new ZipArchive();
         if ($zip->open($zipFilePath) === true) {
             $zip->extractTo($destinationPath);
             $zip->close();
-            return "Extraction successful to $destinationPath";
+            echo "Extraction successful to $destinationPath\n";
         } else {
-            return "Failed to open the zip file.";
+            echo "Failed to open the ZIP file.\n";
+        }
+        
+        // Check for misplaced files
+        $files = File::allFiles($destinationPath);
+        foreach ($files as $file) {
+            $filePath = $file->getRealPath();
+        
+            if (strpos($filePath, '\\') !== false || strpos($filePath, '/') !== false) {
+                $pathParts = explode(DIRECTORY_SEPARATOR, $filePath);
+                $relativePath = array_slice($pathParts, -2); // Adjust to locate misplaced files
+                $targetDir = implode(DIRECTORY_SEPARATOR, [$destinationPath, $relativePath[0]]);
+                $newPath = $targetDir . DIRECTORY_SEPARATOR . $relativePath[1];
+        
+                // Ensure target directory exists
+                if (!File::exists($targetDir)) {
+                    File::makeDirectory($targetDir, 0755, true);
+                }
+        
+                // Move file to its intended location
+                File::move($filePath, $newPath);
+            }
         }
     }
 
@@ -80,8 +100,6 @@ class HomeController extends Controller
             foreach ($files as $file) {
                 $filePath = $file->getRealPath();
                 $relativePath = substr($filePath, strlen($sourceFolder) + 1);
-    
-                // Add the file to the ZIP archive
                 $zip->addFile($filePath, $relativePath);
             }
     
