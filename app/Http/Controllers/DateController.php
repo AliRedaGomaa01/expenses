@@ -55,7 +55,7 @@ class DateController extends Controller
         $daysBetween = $startDate->diffInDays($endDate);
 
         $expenseData['daysBetween'] = $daysBetween;
-        $averagePerDay = $expenseData['sum'] / $daysBetween ?? $expenseData['sum'] ;
+        $averagePerDay = $daysBetween > 0 ? $expenseData['sum'] / $daysBetween : $expenseData['sum'] ;
         $expenseData['averagePerDay'] = number_format($averagePerDay , 2);
 
         return inertia('Expenses/Index', compact('dates', 'categories', 'expenseData', 'filters'));
