@@ -18,10 +18,8 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
+    protected $guarded = [
+        'id',
     ];
 
     /**
@@ -51,7 +49,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function dates()
     {
         return $this->hasMany(Date::class);
-    } 
+    }
 
     # overrides 
     public function delete()
