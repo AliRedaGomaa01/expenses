@@ -24,11 +24,6 @@ class DateController extends Controller
             'category_id' => ['nullable', 'numeric', 'in:' . $categoryIds],
         ]);
 
-
-        if (!empty($filters['name'])) {
-            dd($filters);
-        }
-
         $dates = auth()->user()->dates()->filters($filters)
             ->orderBy('date', 'desc')
             ->paginate(20);
@@ -52,10 +47,10 @@ class DateController extends Controller
         $endDate = Carbon::parse($expenseData['endDate']);
 
         // Calculate the number of days between the two dates
-        $daysBetween = $startDate->diffInDays($endDate);
+        $daysBetween = $startDate->diffInDays($endDate) > 0 ? $startDate->diffInDays($endDate) : 1;
 
         $expenseData['daysBetween'] = $daysBetween;
-        $averagePerDay = $daysBetween > 0 ? $expenseData['sum'] / $daysBetween : $expenseData['sum'] ;
+        $averagePerDay = $expenseData['sum'] / $daysBetween ;
         $expenseData['averagePerDay'] = number_format($averagePerDay , 2);
 
         return inertia('Expenses/Index', compact('dates', 'categories', 'expenseData', 'filters'));
