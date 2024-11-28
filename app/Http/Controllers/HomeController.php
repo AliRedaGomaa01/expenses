@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use ZipArchive;
-use Illuminate\Http\Request;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 use Illuminate\Support\Facades\File;
 
 class HomeController extends Controller
@@ -15,7 +17,7 @@ class HomeController extends Controller
 
         if (File::exists($directoryPath)) {
             if (File::isDirectory($directoryPath)) {
-                File::deleteDirectory($directoryPath); // Or use File::deleteDirectory($directoryPath)
+                File::deleteDirectory($directoryPath);
                 echo "Directory deleted successfully.";
             } else {
                 echo "Path exists but is not a directory.";
@@ -24,28 +26,69 @@ class HomeController extends Controller
             echo "Directory does not exist.";
         }
 
-        $zipFilePath = base_path('public/build.zip'); // Location of the build zip
+        $zipFilePath = base_path('public/build.zip');
 
-        $publicPath = base_path('public/'); // Target directory in `public`
+        $publicPath = base_path('public/');
 
-        // Check if the ZIP file exists
         if (!file_exists($zipFilePath)) {
             return "The zip file does not exist at path: $zipFilePath";
         }
 
-        // Ensure the target directory exists
         if (!File::exists($publicPath)) {
             File::makeDirectory($publicPath, 0755, true);
         }
 
-        // Open and extract the ZIP file
         $zip = new ZipArchive();
         if ($zip->open($zipFilePath) === true) {
-            $zip->extractTo($publicPath); // Extract to public/build
+            $zip->extractTo($publicPath);
             $zip->close();
             return "Extraction successful to $publicPath";
         } else {
             return "Failed to open the zip file.";
+        }
+    }
+
+    function archiveBuild()
+    {
+        $filePath = public_path('build.zip');
+
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+            echo "ZIP file deleted successfully.";
+        } else {
+            echo "ZIP file does not exist.";
+        }
+
+        $destinationZip = base_path('public/build.zip');
+
+        $sourceFolder = base_path('public/build');
+
+        $zip = new ZipArchive();
+
+        if (!is_dir($sourceFolder)) {
+            throw new Exception("Source folder does not exist: $sourceFolder");
+        }
+    
+        $zip = new ZipArchive();
+    
+        if ($zip->open($destinationZip, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+            $files = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($sourceFolder, RecursiveDirectoryIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::LEAVES_ONLY
+            );
+    
+            foreach ($files as $file) {
+                $filePath = $file->getRealPath();
+                $relativePath = substr($filePath, strlen($sourceFolder) + 1);
+    
+                // Add the file to the ZIP archive
+                $zip->addFile($filePath, $relativePath);
+            }
+    
+            $zip->close();
+            return "ZIP file created successfully at: $destinationZip";
+        } else {
+            throw new Exception("Failed to create the ZIP file.");
         }
     }
 }
