@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     
     Route::resource('date', DateController::class)->only('index', 'show');
 
-    Route::get('extract-build', [HomeController::class, 'extractBuildToPublic'])->name('extract-build');
+    // Route::get('extract-build', [HomeController::class, 'extractBuildToPublic'])->name('extract-build');
 });
 
 require __DIR__.'/auth.php';
