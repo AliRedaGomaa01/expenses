@@ -15,6 +15,10 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('extract', [HomeController::class, 'extractBuildToPublic'])->name('extract-build');
+Route::get('archive', [HomeController::class, 'archiveBuild'])->name('archive-build');
+Route::get('command', [HomeController::class, 'command'])->name('command');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -29,9 +33,6 @@ Route::middleware(['auth' , 'verified'])->group(function () {
     Route::resource('expenses', ExpensesController::class)->only('create', 'store', 'update' , 'destroy');
     
     Route::resource('date', DateController::class)->only('index', 'show');
-
-    // Route::get('extract-build', [HomeController::class, 'extractBuildToPublic'])->name('extract-build');
-    // Route::get('archive-build', [HomeController::class, 'archiveBuild'])->name('archive-build');
 });
 
 require __DIR__.'/auth.php';

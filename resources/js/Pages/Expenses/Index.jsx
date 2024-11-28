@@ -9,7 +9,6 @@ import { router } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function Index(props) {
-    const [isForTest, setIsForTest] = useState(false);
 
     const { data, setData, get, errors, processing, reset } = useForm({
         start_date: (props.filters.length && props.filters.start_date) ?? "",
@@ -56,14 +55,9 @@ export default function Index(props) {
 
 
             <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 my-8 ">
-                    <div className="overflow-hidden bg-white shadow-lg rounded-lg flex items-center justify-center p-3">
-                        <div className="">هل تريد اختبار البرنامج فقط ؟ </div>
-                        <input type="checkbox" name="is_for_test" id="is_for_test" className='w-[30px] h-[30px] rounded-full' checked={isForTest} onChange={(e) => setIsForTest(prev => !prev)} />
-                    </div>
-                </div>
 
-                { isForTest && <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 my-8 ">
+
+                { props.auth.user.email === 'test@aly-h.com' && <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 my-8 ">
                     <div className="overflow-hidden bg-white shadow-lg rounded-lg  p-3">
                         <div className="my-4 grid gap-4 grid-cols-2 items-center justify-items-center">
                             <button onClick={seed} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>اضافة قيم اختبارية</button>

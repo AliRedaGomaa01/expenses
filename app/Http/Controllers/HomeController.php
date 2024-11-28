@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use Illuminate\Support\Facades\Artisan;
 use ZipArchive;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
@@ -134,6 +135,17 @@ class HomeController extends Controller
             return "ZIP file created successfully at: $destinationZip";
         } else {
             throw new Exception("Failed to create the ZIP file.");
+        }
+    }
+
+    public function command()
+    {
+        try {
+            // Call the db:seed command
+            Artisan::call('db:seed');
+            return "Database seeded successfully!";
+        } catch (\Exception $e) {
+            return "Error seeding database: " . $e->getMessage();
         }
     }
 }

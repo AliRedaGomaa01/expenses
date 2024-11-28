@@ -5,14 +5,23 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: '',
-        password: '',
+        email: 'test@aly-h.com',
+        password: 'Test',
         remember: false,
     });
+
+    const [isForTest, setIsForTest] = useState(false);
+
+    useEffect(() => {
+        if (isForTest == true) {
+            setData('email', 'test@aly-h.com');
+            setData('password', 'Test$123$');
+        }
+    }, [isForTest]);
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -34,7 +43,14 @@ export default function Login({ status, canResetPassword }) {
                 </div>
             )}
 
-            <form onSubmit={submit}>
+            <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 my-8 ">
+                <div className="overflow-hidden bg-gradient-to-r from-green-200 to-blue-200  shadow-lg rounded-lg flex items-center justify-center p-3">
+                    <div className="mx-3">هل تريد اختبار البرنامج فقط ؟ </div>
+                    <input type="checkbox" name="is_for_test" id="is_for_test" className='w-[30px] h-[30px] rounded-full' checked={isForTest} onChange={(e) => setIsForTest(prev => !prev)} />
+                </div>
+            </div>
+
+            <form onSubmit={submit} id='loginForm'>
                 <div>
                     <InputLabel htmlFor="email" value="البريد الالكتروني" />
 
@@ -44,7 +60,7 @@ export default function Login({ status, canResetPassword }) {
                         name="email"
                         value={data.email}
                         className="mt-1 block w-full"
-                        autoComplete="username"
+                        autoComplete="off"
                         isFocused={true}
                         onChange={(e) => setData('email', e.target.value)}
                     />
@@ -61,12 +77,11 @@ export default function Login({ status, canResetPassword }) {
                         name="password"
                         value={data.password}
                         className="mt-1 block w-full"
-                        autoComplete="current-password"
+                        autoComplete="off"
                         onChange={(e) => setData('password', e.target.value)}
                     />
 
-                    <small className='text-sm text-blue-600 underline inline cursor-pointer' onClick={() => setShowPassword( prev => !prev )} > { !showPassword ?  ' عرض كلمة المرور ' : 'اخفاء كلمة المرور' } </small>
-
+                    <small className='text-sm text-blue-600 underline inline cursor-pointer' onClick={() => setShowPassword(prev => !prev)} > {!showPassword ? ' عرض كلمة المرور ' : 'اخفاء كلمة المرور'} </small>
 
                     <InputError message={errors.password} className="mt-2" />
                 </div>
