@@ -81,7 +81,7 @@ export default function Create(props) {
                             </div>
 
                             <form onSubmit={submit}>
-                                { Object.keys(errors).length > 0 && Object.keys(errors).map((key, idx) => ( <InputError message={errors[key]} className="mt-2" /> )) }
+                                {Object.keys(errors).length > 0 && Object.keys(errors).map((key, idx) => (<InputError message={errors[key]} className="mt-2" />))}
 
                                 {!!data.expenses && data.expenses.map((expense, index) => (
 
@@ -103,7 +103,7 @@ export default function Create(props) {
                                                 placeholder="مثال : فواكه - لحوم - شحن هاتف - دواء - تسوق - فواتير - طلبات ديليفري -  ..."
                                                 value={expense.name}
                                                 className="mt-1 block w-full"
-                                                onChange={(e) => setData('expenses', [...data.expenses].map((item, idx) => {idx === index ? item['name'] = e.target.value : null ; return item ; } ) )}
+                                                onChange={(e) => setData('expenses', [...data.expenses].map((item, idx) => { idx === index ? item['name'] = e.target.value : null; return item; }))}
                                                 required
                                                 autoComplete="off"
                                             />
@@ -123,7 +123,7 @@ export default function Create(props) {
                                                 placeholder="0.00"
                                                 value={expense.price}
                                                 className="mt-1 block w-full"
-                                                onChange={(e) => setData('expenses', [...data.expenses].map((item, idx) => {idx === index ? item['price'] = e.target.value : null ; return item ; } ) )}
+                                                onChange={(e) => setData('expenses', [...data.expenses].map((item, idx) => { idx === index ? item['price'] = e.target.value : null; return item; }))}
                                                 required
                                                 autoComplete="off"
                                             />
@@ -135,12 +135,12 @@ export default function Create(props) {
                                             <InputLabel htmlFor="category_id" value="تصنيف المشتريات" />
 
                                             <select name="category_id" id="category_id" className="mt-1 block w-full"
-                                                onChange={(e) => setData('expenses', [...data.expenses].map((item, idx) => {idx === index ? item['category_id'] = e.target.value : null ; return item ; } ) )}
+                                                onChange={(e) => setData('expenses', [...data.expenses].map((item, idx) => { idx === index ? item['category_id'] = e.target.value : null; return item; }))}
                                                 required
                                                 value={expense['category_id']}
                                             >
                                                 <option value="" disabled> اختر تصنيف من التالي </option>
-                                                {!!props?.categories && props?.categories.map((category , index) => (
+                                                {!!props?.categories && props?.categories.map((category, index) => (
                                                     <option value={category.id} key={category.id}> {category.name} </option>
                                                 ))}
 
@@ -151,11 +151,11 @@ export default function Create(props) {
                                     </div>
                                 ))}
 
-                                <div className="mt-4 flex items-center justify-end">
+                                {data.expenses.length > 0 && <div className="mt-4 flex items-center justify-end">
                                     <PrimaryButton className="ms-4" disabled={processing}>
                                         إضافة
                                     </PrimaryButton>
-                                </div>
+                                </div>}
                             </form>
                         </div>
                     </div>

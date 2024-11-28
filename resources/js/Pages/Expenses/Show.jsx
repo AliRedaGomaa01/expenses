@@ -183,7 +183,7 @@ export default function Show(props) {
                                         {statusIndex !== index &&
                                             <PrimaryButton className='bg-blue-700' onClick={(e) => updateExpense(e, index)} > تحديث القيم </PrimaryButton>
                                         }
-                                        {status == 'processing' && statusIndex === index && 
+                                        {status == 'processing' && statusIndex === index &&
                                             <PrimaryButton className='bg-yellow-700' > جاري المعالجة </PrimaryButton>
                                         }
                                         {status == 'success' && statusIndex === index &&
@@ -269,11 +269,11 @@ export default function Show(props) {
                                     </div>
                                 ))}
 
-                                <div className="mt-4 flex items-center justify-end">
+                                {data.expenses.length > 0 && <div className="mt-4 flex items-center justify-end">
                                     <PrimaryButton className="ms-4" disabled={processing}>
                                         إضافة
                                     </PrimaryButton>
-                                </div>
+                                </div>}
                             </form>
                         </div>
                     </div>
