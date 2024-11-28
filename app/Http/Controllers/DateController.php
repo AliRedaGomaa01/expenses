@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Date;
+use App\Enums\CategoryEnum;
 use Illuminate\Http\Request;
 
 class DateController extends Controller
@@ -12,7 +13,11 @@ class DateController extends Controller
      */
     public function index()
     {
-        //
+        $dates = auth()->user()->dates()
+                ->orderBy('date','desc')
+                ->get();
+
+        return inertia('Expenses/Index', compact('dates'));
     }
 
     /**
@@ -36,7 +41,13 @@ class DateController extends Controller
      */
     public function show(Date $date)
     {
-        //
+        $categories = CategoryEnum::toArray();
+
+        $date->load('expenses');
+        
+        $date->update(['expenses_sum' => $date->expenses->sum('price')]);
+
+        return inertia('Expenses/Show', compact('date' , 'categories'));
     }
 
     /**

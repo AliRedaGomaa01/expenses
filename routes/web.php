@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DateController;
+use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    Route::resource('expenses', ExpensesController::class)->only('create', 'store', 'update' , 'destroy');
+    Route::resource('date', DateController::class)->only('index', 'show');
 });
 
 require __DIR__.'/auth.php';

@@ -23,12 +23,24 @@ export default function AuthenticatedLayout({ header, children }) {
                                 </Link>
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex items-center justify-center">
                                 <NavLink
                                     href={route('dashboard')}
                                     active={route().current('dashboard')}
                                 >
                                     لوحة التحكم
+                                </NavLink>
+                                <NavLink
+                                    href={route('expenses.create')}
+                                    active={route().current('expenses.create')}
+                                >
+                                    اضافة نفقات جديدة
+                                </NavLink>
+                                <NavLink
+                                    href={route('date.index')}
+                                    active={route().current('date.index')}
+                                >
+                                    جدول المصاريف
                                 </NavLink>
                             </div>
                         </div>
@@ -134,43 +146,56 @@ export default function AuthenticatedLayout({ header, children }) {
                         >
                             لوحة التحكم
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('expenses.create')}
+                            active={route().current('expenses.create')}
+                        >
+                            اضافة نفقات جديدة
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('date.index')}
+                            active={route().current('date.index')}
+                        >
+                            جدول المصاريف
+                        </ResponsiveNavLink>
+                </div>
+
+                <div className="border-t border-gray-200 pb-1 pt-4">
+                    <div className="px-4">
+                        <div className="text-base font-medium text-gray-800">
+                            {user.name}
+                        </div>
+                        <div className="text-sm font-medium text-gray-500">
+                            {user.email}
+                        </div>
                     </div>
 
-                    <div className="border-t border-gray-200 pb-1 pt-4">
-                        <div className="px-4">
-                            <div className="text-base font-medium text-gray-800">
-                                {user.name}
-                            </div>
-                            <div className="text-sm font-medium text-gray-500">
-                                {user.email}
-                            </div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>
-                                الملف الشخصي
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                method="post"
-                                href={route('logout')}
-                                as="button"
-                            >
-                                تسجيل الخروج
-                            </ResponsiveNavLink>
-                        </div>
+                    <div className="mt-3 space-y-1">
+                        <ResponsiveNavLink href={route('profile.edit')}>
+                            الملف الشخصي
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            method="post"
+                            href={route('logout')}
+                            as="button"
+                        >
+                            تسجيل الخروج
+                        </ResponsiveNavLink>
                     </div>
                 </div>
-            </nav>
-
-            {header && (
-                <header className="bg-white shadow">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        {header}
-                    </div>
-                </header>
-            )}
-
-            <main>{children}</main>
         </div>
+            </nav >
+
+        { header && (
+            <header className="bg-white shadow">
+                <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                    {header}
+                </div>
+            </header>
+        )
+}
+
+<main className='m-2'>{children}</main>
+        </div >
     );
 }

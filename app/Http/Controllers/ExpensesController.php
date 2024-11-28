@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Expenses;
+use App\Enums\CategoryEnum;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ExpenseRequest;
 
 class ExpensesController extends Controller
 {
@@ -20,15 +24,28 @@ class ExpensesController extends Controller
      */
     public function create()
     {
-        //
+        $categories = CategoryEnum::toArray();
+        return inertia('Expenses/Create' , compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ExpenseRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        DB::transaction(function () use (&$date , $validated) {
+            $date = auth()->user()->dates()->firstOrCreate(collect($validated)->only('date')->toArray());
+            
+            foreach ($validated['expenses'] as $expense) {
+                $date->expenses()->create($expense);
+            }
+
+            $date->update(['expenses_sum' => $date->expenses->sum('price')]);
+        });
+        
+        return Inertia::location(route('date.show' , $date->id));
     }
 
     /**
@@ -50,16 +67,32 @@ class ExpensesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Expenses $expenses)
+    public function update(ExpenseRequest $request, Expenses $expense)
     {
-        //
+        $validated = $request->validated();
+
+        $expense->update($validated);
+
+        $expense->date->update(['expenses_sum' => $expense->date->expenses->sum('price')]);
+
+        return response()->json(['status' => 'success']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Expenses $expenses)
+    public function destroy(Expenses $expense)
     {
-        //
+        $date = $expense->date;
+        
+        $expense->delete();
+        
+        if ( $date->expenses->count() === 0 ) {
+            $date->delete();
+            return redirect()->route('dates.index');
+        } else {
+            $date->update(['expenses_sum' => $date->expenses->sum('price')]);
+            return response()->json(['status' => 'success']);
+        }
     }
 }

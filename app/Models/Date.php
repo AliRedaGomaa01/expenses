@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Date extends Model
 {
     protected $guarded = ['id'];
+
+    public $timestamps = false;
     
     # relations 
     public function user()
