@@ -68,7 +68,7 @@ export default function Show(props) {
             {
                 name: '',
                 price: '',
-                category_id: '',
+                category_id: '1',
             },
         ]);
     };

@@ -28,7 +28,7 @@ export default function Create(props) {
             {
                 name: '',
                 price: '',
-                category_id: '',
+                category_id: '1',
             },
         ]);
     };

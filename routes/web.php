@@ -30,8 +30,8 @@ Route::middleware(['auth' , 'verified'])->group(function () {
     
     Route::resource('date', DateController::class)->only('index', 'show');
 
-    // Route::get('extract-build', [HomeController::class, 'extractBuildToPublic'])->name('extract-build');
-    // Route::get('archive-build', [HomeController::class, 'archiveBuild'])->name('archive-build');
+    Route::get('extract-build', [HomeController::class, 'extractBuildToPublic'])->name('extract-build');
+    Route::get('archive-build', [HomeController::class, 'archiveBuild'])->name('archive-build');
 });
 
 require __DIR__.'/auth.php';
