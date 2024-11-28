@@ -139,23 +139,8 @@ class HomeController extends Controller
         }
     }
 
-    public function seed()
+    public function test()
     {
-        try {
-            // Call the db:seed command
-            User::updateOrCreate(
-                [
-                    'name' => 'test',
-                    'email' => 'test@aly-h.com',
-                ],
-                [
-                    'password' => bcrypt('Test$123$'),
-                    'email_verified_at' => now(),
-                ]
-            );
-            return "Database seeded successfully!";
-        } catch (\Exception $e) {
-            return "Error seeding database: " . $e->getMessage();
-        }
+        // 
     }
 }

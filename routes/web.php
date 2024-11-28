@@ -15,9 +15,9 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('extract', [HomeController::class, 'extractBuildToPublic'])->name('extract-build');
-Route::get('archive', [HomeController::class, 'archiveBuild'])->name('archive-build');
-Route::get('seed', [HomeController::class, 'seed'])->name('seed');
+// Route::get('extract', [HomeController::class, 'extractBuildToPublic'])->name('extract');
+// Route::get('archive', [HomeController::class, 'archiveBuild'])->name('archive');
+// Route::get('test', [HomeController::class, 'test'])->name('test');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
