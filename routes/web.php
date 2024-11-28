@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Route::get('extract', [HomeController::class, 'extractBuildToPublic'])->name('extract-build');
 Route::get('archive', [HomeController::class, 'archiveBuild'])->name('archive-build');
-Route::get('command', [HomeController::class, 'command'])->name('command');
+Route::get('seed', [HomeController::class, 'seed'])->name('seed');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use Illuminate\Support\Facades\Artisan;
 use ZipArchive;
+use App\Models\User;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Artisan;
 
 class HomeController extends Controller
 {
@@ -138,11 +139,16 @@ class HomeController extends Controller
         }
     }
 
-    public function command()
+    public function seed()
     {
         try {
             // Call the db:seed command
-            Artisan::call('db:seed');
+            User::updateOrCreate([
+                'name' => 'test',
+                'email' => 'test@aly-h.com',
+                'password' => bcrypt('Test$123$'),
+                'email_verified_at' => now(),
+            ]);
             return "Database seeded successfully!";
         } catch (\Exception $e) {
             return "Error seeding database: " . $e->getMessage();
