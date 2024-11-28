@@ -28,21 +28,21 @@ class HomeController extends Controller
 
         $zipFilePath = base_path('public/build.zip');
 
-        $publicPath = base_path('public/');
+        $destinationPath = base_path('public/build');
 
         if (!file_exists($zipFilePath)) {
             return "The zip file does not exist at path: $zipFilePath";
         }
 
-        if (!File::exists($publicPath)) {
-            File::makeDirectory($publicPath, 0755, true);
+        if (!File::exists($destinationPath)) {
+            File::makeDirectory($destinationPath, 0755, true);
         }
 
         $zip = new ZipArchive();
         if ($zip->open($zipFilePath) === true) {
-            $zip->extractTo($publicPath);
+            $zip->extractTo($destinationPath);
             $zip->close();
-            return "Extraction successful to $publicPath";
+            return "Extraction successful to $destinationPath";
         } else {
             return "Failed to open the zip file.";
         }
