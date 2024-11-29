@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm } from '@inertiajs/react';
-import DateInput from './Components/DateInput';
+import DateInput from './Components/DateInput.jsx';
+import CreateNewInputs from './Components/CreateNewInputs.jsx';
 
 export default function Create(props) {
 

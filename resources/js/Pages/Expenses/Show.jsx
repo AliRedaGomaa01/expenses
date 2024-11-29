@@ -1,7 +1,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm } from '@inertiajs/react';
-import CreateNewInputs from './Components/CreateNewInputs';
+import CreateNewInputs from './Components/CreateNewInputs.jsx';
 import EditCurrentExpenses from './Components/EditCurrentExpenses.jsx';
+import DateInput from './Components/DateInput.jsx';
 
 export default function Show(props) {
     const { data: data, setData: setData, post: post, processing: processing, errors: errors, reset: reset } = useForm({

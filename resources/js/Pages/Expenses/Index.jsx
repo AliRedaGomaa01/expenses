@@ -21,7 +21,7 @@ export default function Index(props) {
 
                 <IndexTest auth={props.auth} />
 
-                <IndexSearch  dates={props.dates} categories={props.categories} />
+                <IndexSearch  dates={props.dates} categories={props.categories} filters={props.filters} />
                 
                 <IndexTable dates={props.dates} expenseData={props.expenseData} filters={props.filters}/>
 

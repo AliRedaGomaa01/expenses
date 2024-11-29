@@ -8,12 +8,12 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
 
-export default function IndexSearch( {dates , categories, ...props } ) {
+export default function IndexSearch( {dates , categories, filters, ...props } ) {
 
     const { data, setData, get, errors, processing, reset } = useForm({
-        start_date: (props.filters.length && props.filters.start_date) ?? "",
-        end_date: (props.filters.length && props.filters.end_date) ?? "",
-        category_id: (props.filters.length && props.filters.name) ?? "",
+        start_date: (filters.length && filters.start_date) ?? "",
+        end_date: (filters.length && filters.end_date) ?? "",
+        category_id: (filters.length && filters.name) ?? "",
     });
 
     const search = (e) => {
@@ -30,7 +30,7 @@ export default function IndexSearch( {dates , categories, ...props } ) {
 
     return (
         <>
-            {!!props.dates?.data.length && <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 my-8">
+            {!!dates?.data.length && <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 my-8">
                 <div className="overflow-hidden bg-white shadow-lg rounded-lg">
                     <form onSubmit={search} className="p-6 grid grid-cols-1 md:grid-cols-3 content-center justify-center gap-4">
                         {/* Start Date */}
@@ -75,8 +75,8 @@ export default function IndexSearch( {dates , categories, ...props } ) {
                                 <option value="0" >
                                     الجميع
                                 </option>
-                                {!!props?.categories &&
-                                    props?.categories.map((category) => (
+                                {!!categories &&
+                                    categories.map((category) => (
                                         <option value={category.id} key={category.id}>
                                             {category.name}
                                         </option>

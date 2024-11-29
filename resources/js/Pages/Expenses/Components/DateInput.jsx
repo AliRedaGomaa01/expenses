@@ -1,6 +1,7 @@
-import InputError from './Components/InputError';
-import InputLabel from './Components/InputLabel';
-import TextInput from './Components/TextInput';
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import TextInput from "@/Components/TextInput";
+
 
 export default function DateInput({ data: data, setData: setData, errors: errors, disabled = false , ...props}) {
 
