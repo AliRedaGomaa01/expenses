@@ -29,8 +29,7 @@ class ExpensesController extends Controller
             ->orderBy('date_id', 'desc')
             ->paginate(20);
 
-        $expensesSum = Expenses::with(['date'])
-            ->filters($filters)
+        $expensesSum = Expenses::filters($filters)
             ->sum('price');
 
         $expenseData = $this->dateAndExpenseService->handleExpenseData($filters, $expensesSum, $categories);

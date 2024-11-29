@@ -6,27 +6,26 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { router } from '@inertiajs/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function IndexSearch({ searchType, categories, filters, ...props }) {
 
     const { data, setData, get, errors, processing, reset } = useForm({
-        start_date: (filters.length && filters.start_date) ?? "",
-        end_date: (filters.length && filters.end_date) ?? "",
-        category_id: (filters.length && filters.name) ?? "",
-        name: (filters.length && filters.name) ?? "",
+        start_date: filters.start_date  ?? '',
+        end_date: filters.end_date ?? '',
+        category_id: filters.category_id ?? '0',
+        name: filters.name ?? '',
     });
 
     const search = (e) => {
         e.preventDefault();
-        let routeName = searchType === 'date' ? 'date.index' : 'expenses.index';
+        let routeName = searchType == 'date' ? 'date.index' : 'expenses.index';
 
         // console.log(data);
 
         get(route(routeName),
             {
                 preserveScroll: true,
-                preserveState: true
             });
     }
 

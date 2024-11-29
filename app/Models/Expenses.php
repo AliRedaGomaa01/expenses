@@ -31,12 +31,12 @@ class Expenses extends Model
             })
             ->when(!empty($filters['start_date']), function ($query) use ($filters) {
                 $query->whereHas('date', function ($query) use ($filters) {
-                    $query->where('date', '>=', $filters['start_date']);
+                    $query->where('dates.date', '>=', $filters['start_date']);
                 });
             })
             ->when(!empty($filters['end_date']), function ($query) use ($filters) {
                 $query->whereHas('date', function ($query) use ($filters) {
-                    $query->where('date', '<=', $filters['end_date']);
+                    $query->where('dates.date', '<=', $filters['end_date']);
                 });
             })
         ;
