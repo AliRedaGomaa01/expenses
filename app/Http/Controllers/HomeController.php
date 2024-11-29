@@ -141,6 +141,10 @@ class HomeController extends Controller
 
     public function test()
     {
-        // 
+        \Illuminate\Support\Facades\Schema::table('expenses', function (\Illuminate\Database\Schema\Blueprint $table) {
+            $table->string('name', 255)->change();
+        });
+
+        return "migration edition done";
     }
 }
