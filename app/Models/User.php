@@ -51,6 +51,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Date::class);
     }
 
+    public function expenses()
+    {
+        return $this->hasManyThrough(Expenses::class, Date::class, );
+    }
+
     # overrides 
     public function delete()
     {

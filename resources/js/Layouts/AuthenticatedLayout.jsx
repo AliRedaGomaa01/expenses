@@ -40,6 +40,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                     href={route('date.index')}
                                     active={route().current('date.index')}
                                 >
+                                    جدول الأيام
+                                </NavLink>
+                                <NavLink
+                                    href={route('expenses.index')}
+                                    active={route().current('expenses.index')}
+                                >
                                     جدول المصاريف
                                 </NavLink>
                             </div>
@@ -155,6 +161,12 @@ export default function AuthenticatedLayout({ header, children }) {
                         <ResponsiveNavLink
                             href={route('date.index')}
                             active={route().current('date.index')}
+                        >
+                            جدول الأيام
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('expenses.index')}
+                            active={route().current('expenses.index')}
                         >
                             جدول المصاريف
                         </ResponsiveNavLink>

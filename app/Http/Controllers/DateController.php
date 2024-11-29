@@ -6,29 +6,23 @@ use Carbon\Carbon;
 use App\Models\Date;
 use App\Enums\CategoryEnum;
 use Illuminate\Http\Request;
+use App\Services\DateAndExpenseService;
 
 class DateController extends Controller
 {
+    public function __construct(
+        public DateAndExpenseService $dateAndExpenseService
+    ) {
+    }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $categories = CategoryEnum::toArray();
+        ['categories' => $categories, 'filters' => $filters, 'isEmpty' => $isEmpty] = $this->dateAndExpenseService->handleFilters($request);
 
-        $categoryIds = implode(',', (collect($categories)->pluck('id')->toArray()));
-
-        $filters = $request->validate([
-            'start_date' => ['nullable', 'string'],
-            'end_date' => ['nullable', 'string'],
-            'category_id' => ['nullable', 'numeric', 'in:' . $categoryIds . ',0'],
-        ]);
-
-        if ($filters['category_id'] == '0') {
-            unset($filters['category_id']);
-        }
-
-        $dates = auth()->user()->dates()->filters($filters)
+        $dates = Date::with(['expenses'])
+            ->filters($filters)
             ->orderBy('date', 'desc')
             ->paginate(20);
 
@@ -40,22 +34,7 @@ class DateController extends Controller
             ->flatMap->expenses
             ->sum('price');
 
-        $expenseData = [
-            'sum' => $expensesSum,
-            'startDate' => auth()->user()->dates()->filters($filters)->min('date'),
-            'endDate' => auth()->user()->dates()->filters($filters)->max('date')
-        ];
-
-        // Assume these are your two dates
-        $startDate = Carbon::parse($expenseData['startDate']);
-        $endDate = Carbon::parse($expenseData['endDate']);
-
-        // Calculate the number of days between the two dates
-        $daysBetween = $startDate->diffInDays($endDate) > 0 ? $startDate->diffInDays($endDate) : 1;
-
-        $expenseData['daysBetween'] = $daysBetween;
-        $averagePerDay = $expenseData['sum'] / $daysBetween ;
-        $expenseData['averagePerDay'] = number_format($averagePerDay , 2);
+        $expenseData = $this->dateAndExpenseService->handleExpenseData( $filters , $expensesSum , $categories);
 
         return inertia('Expenses/Index', compact('dates', 'categories', 'expenseData', 'filters'));
     }

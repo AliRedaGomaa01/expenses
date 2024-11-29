@@ -8,20 +8,22 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
 
-export default function IndexSearch( {dates , categories, filters, ...props } ) {
+export default function IndexSearch({ searchType, categories, filters, ...props }) {
 
     const { data, setData, get, errors, processing, reset } = useForm({
         start_date: (filters.length && filters.start_date) ?? "",
         end_date: (filters.length && filters.end_date) ?? "",
         category_id: (filters.length && filters.name) ?? "",
+        name: (filters.length && filters.name) ?? "",
     });
 
     const search = (e) => {
         e.preventDefault();
+        let routeName = searchType === 'date' ? 'date.index' : 'expenses.index';
 
         // console.log(data);
 
-        get(route('date.index'),
+        get(route(routeName),
             {
                 preserveScroll: true,
                 preserveState: true
@@ -30,10 +32,10 @@ export default function IndexSearch( {dates , categories, filters, ...props } ) 
 
     return (
         <>
-            {!!dates?.data.length && <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 my-8">
+
+            <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 my-8">
                 <div className="overflow-hidden bg-white shadow-lg rounded-lg">
-                    <form onSubmit={search} className="p-6 grid grid-cols-1 md:grid-cols-3 content-center justify-center gap-4">
-                        {/* Start Date */}
+                    <form onSubmit={search} className="p-6 grid grid-cols-1 md:grid-cols-2 content-center justify-center gap-4">
                         <div className="flex flex-col">
                             <InputLabel htmlFor="start_date" value="بداية من تاريخ" />
                             <TextInput
@@ -48,7 +50,6 @@ export default function IndexSearch( {dates , categories, filters, ...props } ) 
                             <InputError message={errors.start_date} className="mt-2 text-red-500 text-sm" />
                         </div>
 
-                        {/* End Date */}
                         <div className="flex flex-col">
                             <InputLabel htmlFor="end_date" value="آخر تاريخ" />
                             <TextInput
@@ -60,6 +61,20 @@ export default function IndexSearch( {dates , categories, filters, ...props } ) 
                                 onChange={(e) => setData('end_date', e.target.value)}
                             />
                             <InputError message={errors.end_date} className="mt-2 text-red-500 text-sm" />
+                        </div>
+
+
+                        <div className="flex flex-col">
+                            <InputLabel htmlFor="name" value="اسم المشتريات" />
+                            <TextInput
+                                id="name"
+                                type="text"
+                                name="name"
+                                value={data.name}
+                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-300"
+                                onChange={(e) => setData('name', e.target.value)}
+                            />
+                            <InputError message={errors.name} className="mt-2 text-red-500 text-sm" />
                         </div>
 
                         {/* Category */}
@@ -86,7 +101,7 @@ export default function IndexSearch( {dates , categories, filters, ...props } ) 
                         </div>
 
                         {/* Submit Button */}
-                        <div className="flex justify-stretch mt-6 md:col-span-3">
+                        <div className="flex justify-stretch mt-6 md:col-span-2">
                             <button
                                 type="submit"
                                 className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 w-full"
@@ -96,7 +111,7 @@ export default function IndexSearch( {dates , categories, filters, ...props } ) 
                         </div>
                     </form>
                 </div>
-            </div>}
+            </div>
         </>
     );
 }

@@ -4,7 +4,7 @@ import TextInput from '@/Components/TextInput';
 import { useState } from 'react';
 import axios from 'axios';
 
-export default function EditCurrentExpenses({ expenses = [] , ...props }) {
+export default function EditCurrentExpenses({ expenses = [] , categories, ...props }) {
     const [currentExpenses, setCurrentExpenses] = useState( expenses ?? []);
     const [status, setStatus] = useState('');
     const [statusIndex, setStatusIndex] = useState('');
@@ -44,7 +44,7 @@ export default function EditCurrentExpenses({ expenses = [] , ...props }) {
 
     return (
         <>
-            {!!currentExpenses && currentExpenses.map((expense, index) => (
+            {!!currentExpenses && currentExpenses.map(( { id , date , name , price , category_id  } , index) => (
 
                 <div className={'p-2 my-4 relative rounded-xl grid grid-cols-1 md:grid-cols-3 gap-3' + `${index % 2 == 0 ? ' bg-red-50' : ' bg-blue-50'}`} key={index}>
                     <div
@@ -53,7 +53,6 @@ export default function EditCurrentExpenses({ expenses = [] , ...props }) {
                     >
                         X
                     </div>
-
                     <div className="mt-4">
                         <InputLabel htmlFor="name" value="اسم المشتريات" />
 
@@ -62,7 +61,7 @@ export default function EditCurrentExpenses({ expenses = [] , ...props }) {
                             type="text"
                             name="name"
                             placeholder="مثال : فواكه - لحوم - شحن هاتف - دواء - تسوق - فواتير - طلبات ديليفري -  ..."
-                            value={expense.name}
+                            value={name}
                             className="mt-1 block w-full"
                             onChange={(e) => setCurrentExpenses(prev => [...prev].map((item, idx) => { idx === index ? item['name'] = e.target.value : null; return item; }))}
                             required
@@ -81,7 +80,7 @@ export default function EditCurrentExpenses({ expenses = [] , ...props }) {
                             step="0.01"
                             min="0"
                             placeholder="0.00"
-                            value={expense.price}
+                            value={price}
                             className="mt-1 block w-full"
                             onChange={(e) => setCurrentExpenses(prev => [...prev].map((item, idx) => { idx === index ? item['price'] = e.target.value : null; return item; }))}
                             required
@@ -95,11 +94,11 @@ export default function EditCurrentExpenses({ expenses = [] , ...props }) {
                         <select name="category_id" id="category_id" className="mt-1 block w-full"
                             onChange={(e) => setCurrentExpenses(prev => [...prev].map((item, idx) => { idx === index ? item['category_id'] = e.target.value : null; return item; }))}
                             required
-                            value={expense['category_id']}
+                            value={category_id}
                         >
 
                             <option value="" disabled> اختر تصنيف من التالي </option>
-                            {!!props?.categories && props?.categories.map((category, index) => (
+                            {!!categories && categories.map((category, index) => (
                                 <option value={category.id} key={category.id}> {category.name} </option>
                             ))}
 

@@ -2,21 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Models\Expenses;
 use App\Enums\CategoryEnum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ExpenseRequest;
+use App\Services\DateAndExpenseService;
 
 class ExpensesController extends Controller
 {
+    public function __construct(
+        public DateAndExpenseService $dateAndExpenseService
+    ) {
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        ['categories' => $categories, 'filters' => $filters, 'isEmpty' => $isEmpty] = $this->dateAndExpenseService->handleFilters($request);
+
+        $expenses = Expenses::query()->with(['date'])
+            ->filters($filters)
+            ->orderBy('date_id', 'desc')
+            ->paginate(20);
+
+        $expensesSum = Expenses::query()->with(['date'])
+            ->filters($filters)
+            ->sum('price');
+
+        $expenseData = $this->dateAndExpenseService->handleExpenseData($filters, $expensesSum, $categories);
+
+        return inertia('Expenses/Index', compact('expenses', 'categories', 'expenseData', 'filters'));
     }
 
     /**
@@ -99,10 +118,10 @@ class ExpensesController extends Controller
     public function seed()
     {
 
-        foreach (range(1, 30) as $day) {
+        foreach (range(1, 27) as $day) {
             DB::transaction(function () use (&$day) {
                 $date = auth()->user()->dates()->firstOrCreate([
-                    'date' => "2001-" . rand(1, 12) . "-$day",
+                    'date' => "2001-0" . rand(1, 9) . "-$day",
                 ]);
 
                 $expenses = [];

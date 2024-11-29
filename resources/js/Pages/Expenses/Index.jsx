@@ -1,8 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import IndexTable from './Components/IndexTable';
+import IndexTable from './Components/DateTable';
 import IndexSearch from './Components/IndexSearch';
 import IndexTest from './Components/IndexTest';
+import ExpenseTable from './Components/ExpenseTable';
 
 export default function Index(props) {
 
@@ -21,9 +22,11 @@ export default function Index(props) {
 
                 <IndexTest auth={props.auth} />
 
-                <IndexSearch  dates={props.dates} categories={props.categories} filters={props.filters} />
+                <IndexSearch  searchType={ !!props?.dates?.data ? 'date' : 'expense'} categories={props.categories} filters={props.filters} />
                 
-                <IndexTable dates={props.dates} expenseData={props.expenseData} filters={props.filters}/>
+                {!!props?.dates?.data && <IndexTable dates={props.dates} expenseData={props.expenseData} filters={props.filters}/>}
+
+                {!!props?.expenses?.data && <ExpenseTable expenses={props.expenses} expenseData={props.expenseData} filters={props.filters} categories={props.categories}/>}
 
             </div>
         </AuthenticatedLayout>
