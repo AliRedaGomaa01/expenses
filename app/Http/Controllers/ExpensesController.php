@@ -107,11 +107,13 @@ class ExpensesController extends Controller
 
                 $expenses = [];
 
+                $categories = collect(CategoryEnum::toArray());
+
                 foreach (['a', 'b', 'c'] as $expenseName) {
                     $expenses[] = [
-                        'name' => $expenseName . $day . rand(10, 30),
+                        'name' => $expenseName . '-' . $day . '-' . rand(10, 30),
                         'price' => rand(10, 30),
-                        'category_id' => rand(1, 3), // CategoryEnum
+                        'category_id' => rand($categories->min('id'), $categories->max('id')), // CategoryEnum
                         'date_id' => $date->id,
                         'created_at' => now(),
                         'updated_at' => now(),

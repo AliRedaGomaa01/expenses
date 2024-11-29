@@ -21,8 +21,12 @@ class DateController extends Controller
         $filters = $request->validate([
             'start_date' => ['nullable', 'string'],
             'end_date' => ['nullable', 'string'],
-            'category_id' => ['nullable', 'numeric', 'in:' . $categoryIds],
+            'category_id' => ['nullable', 'numeric', 'in:' . $categoryIds . ',0'],
         ]);
+
+        if ($filters['category_id'] == '0') {
+            unset($filters['category_id']);
+        }
 
         $dates = auth()->user()->dates()->filters($filters)
             ->orderBy('date', 'desc')
