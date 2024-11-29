@@ -31,7 +31,7 @@ export default function Dashboard() {
                             <Link href={route('expenses.create')} as='button' className='animate-colored p-2 rounded-xl my-3 border border-gray-600' > اضافة نفقات جديدة  </Link>
                             <br />
                             <br />
-                            <Link href={route('expenses.index')} as='button' className='animate-colored p-2 rounded-xl my-3 border border-gray-600' > متابعة أيام الانفاق  </Link>
+                            <Link href={route('date.index')} as='button' className='animate-colored p-2 rounded-xl my-3 border border-gray-600' > متابعة أيام الانفاق  </Link>
                             <br />
                             <br />
                             <Link href={route('expenses.index')} as='button' className='animate-colored p-2 rounded-xl my-3 border border-gray-600' > متابعة النفقات  </Link>
