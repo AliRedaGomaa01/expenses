@@ -24,12 +24,12 @@ class ExpensesController extends Controller
     {
         ['categories' => $categories, 'filters' => $filters, 'isEmpty' => $isEmpty] = $this->dateAndExpenseService->handleFilters($request);
 
-        $expenses = Expenses::query()->with(['date'])
+        $expenses = Expenses::with(['date'])
             ->filters($filters)
             ->orderBy('date_id', 'desc')
             ->paginate(20);
 
-        $expensesSum = Expenses::query()->with(['date'])
+        $expensesSum = Expenses::with(['date'])
             ->filters($filters)
             ->sum('price');
 
