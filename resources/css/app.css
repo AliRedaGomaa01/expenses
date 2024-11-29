@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    body{
+        @apply font-sans;
+    }
+}
+
 @layer components {
     .active {
         @apply underline font-bold opacity-80 outline-slate-600 decoration-slate-600 bg-gray-50;
@@ -14,5 +20,9 @@
     .scrollbar-hide {
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
+    }
+
+    .my-grad{
+        @apply bg-gradient-to-br from-[#fff2cc] to-[#e4f0fc];
     }
 }
