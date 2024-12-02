@@ -35,7 +35,7 @@ export default function ExpenseTable({ expenses, expenseData, filters, categorie
 
                         <Pagination {...pagination} />
 
-                        <ExpenseSummary expenseData={expenseData} />
+                        <ExpenseSummary expenseData={expenseData} filters={filters} />
                     </div>}
                 </div>
             </div>

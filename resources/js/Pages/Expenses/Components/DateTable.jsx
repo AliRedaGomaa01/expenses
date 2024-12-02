@@ -45,7 +45,7 @@ export default function DateTable({ dates, expenseData, filters, ...props }) {
 
                         <Pagination {...pagination} />
 
-                        <ExpenseSummary expenseData={expenseData} />
+                        <ExpenseSummary expenseData={expenseData} filters={filters} />
                     </div>}
                 </div>
             </div>
