@@ -43,13 +43,6 @@ export default function Login({ status, canResetPassword }) {
                 </div>
             )}
 
-            <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 my-8 ">
-                <div className="overflow-hidden bg-gradient-to-r from-green-200 to-blue-200  shadow-lg rounded-lg flex items-center justify-center p-3">
-                    <div className="mx-3">هل تريد اختبار البرنامج فقط ؟ </div>
-                    <input type="checkbox" name="is_for_test" id="is_for_test" className='w-[30px] h-[30px] rounded-full' checked={isForTest} onChange={(e) => setIsForTest(prev => !prev)} />
-                </div>
-            </div>
-
             <form onSubmit={submit} id='loginForm'>
                 <div>
                     <InputLabel htmlFor="email" value="البريد الالكتروني" />
@@ -90,6 +83,19 @@ export default function Login({ status, canResetPassword }) {
                     <label className="flex items-center">
                         <Checkbox
                             name="remember"
+                            checked={isForTest}
+                            onChange={(e) => setIsForTest(prev => !prev)}
+                        />
+                        <span className="ms-2 text-sm text-gray-600">
+                        هل تريد اختبار البرنامج فقط ؟ 
+                        </span>
+                    </label>
+                </div>
+
+                <div className="mt-4 block">
+                    <label className="flex items-center">
+                        <Checkbox
+                            name="remember"
                             checked={data.remember}
                             onChange={(e) =>
                                 setData('remember', e.target.checked)
@@ -116,6 +122,7 @@ export default function Login({ status, canResetPassword }) {
                     </PrimaryButton>
                 </div>
             </form>
+
         </GuestLayout>
     );
 }

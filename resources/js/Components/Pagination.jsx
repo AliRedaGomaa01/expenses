@@ -21,7 +21,7 @@ const Pagination = ({ links, from , to, current_page, last_page, total  }) => {
                                 className={`px-4 py-2 border rounded ${
                                     link.active
                                         ? 'bg-blue-500 text-white'
-                                        : 'bg-white text-blue-500 hover:bg-gray-100'
+                                        : 'my-grad text-blue-500 hover:bg-yellow-100'
                                 }`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
                             />

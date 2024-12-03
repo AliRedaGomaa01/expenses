@@ -2,7 +2,7 @@ export default function ExpenseSummary({ expenseData, filters, ...props }) {
 
     return (
 
-        <div className="my-4 p-4 bg-gray-100 rounded-md shadow-md text-center">
+        <div className="my-4 p-4 bg-yellow-100 rounded-md shadow-md text-center">
             <p className="text-lg font-medium text-gray-700 bg-red-100">
                 مجموع النفقات { ' '}
                 <span className="text-red-700 font-semibold">

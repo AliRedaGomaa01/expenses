@@ -9,14 +9,14 @@ export default function DateTable({ dates, expenseData, filters, ...props }) {
 
     return (
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 my-4">
-            <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+            <div className="overflow-hidden my-grad shadow-sm sm:rounded-lg">
                 <div className="p-6 text-gray-900 text-center">
 
                     {!dates?.data.length && <div className='text-center p-2 shadow-gray-400 shadow-md'>'لا يوجد مصاريف'</div>}
 
                     {!!dates?.data.length && <div className="overflow-scroll scrollbar-hide">
                         <table className="min-w-full border-collapse border border-gray-300">
-                            <thead className="bg-gray-100">
+                            <thead className="bg-yellow-100">
                                 <tr className="text-center">
                                     <th width="10%" className="px-4 py-2 border border-gray-300 text-sm font-medium text-gray-700">#</th>
                                     <th width="20%" className="px-4 py-2 border border-gray-300 text-sm font-medium text-gray-700">التاريخ</th>
@@ -28,7 +28,7 @@ export default function DateTable({ dates, expenseData, filters, ...props }) {
                                 {!!dates?.data && dates?.data.map((date, index) => (
                                     <tr
                                         key={index}
-                                        className={index % 2 === 0 ? "bg-gray-50" : "bg-white"} // Alternating row colors
+                                        className={index % 2 === 0 ? "bg-yellow-50" : "my-grad"} // Alternating row colors
                                     >
                                         <td className="px-4 py-2 border border-gray-300 text-sm text-gray-600">{index + 1}</td>
                                         <td className="px-4 py-2 border border-gray-300 text-sm text-gray-600">{date.date}</td>

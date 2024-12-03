@@ -33,7 +33,7 @@ export default function IndexSearch({ searchType, categories, filters, ...props 
         <>
 
             <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 my-8">
-                <div className="overflow-hidden bg-white shadow-lg rounded-lg">
+                <div className="overflow-hidden my-grad shadow-lg rounded-lg">
                     <form onSubmit={search} className="p-6 grid grid-cols-1 md:grid-cols-2 content-center justify-center gap-4">
                         <div className="flex flex-col">
                             <InputLabel htmlFor="start_date" value="بداية من تاريخ" />

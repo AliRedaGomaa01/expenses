@@ -13,7 +13,7 @@ Route::get('/', function () {
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
     ]);
-});
+})->name('welcome');
 
 // Route::get('extract', [HomeController::class, 'extractBuildToPublic'])->name('extract');
 // Route::get('archive', [HomeController::class, 'archiveBuild'])->name('archive');

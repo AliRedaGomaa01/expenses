@@ -15,7 +15,7 @@ export default function ExpenseTable({ expenses, expenseData, filters, categorie
 
     return (
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 my-4">
-            <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+            <div className="overflow-hidden my-grad shadow-sm sm:rounded-lg">
                 <div className="p-6 text-gray-900 text-center">
 
                     {!expenses?.data.length && <div className='text-center p-2 shadow-gray-400 shadow-md my-4'>'لا يوجد مصاريف'</div>}

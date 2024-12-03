@@ -1,27 +1,56 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
+import NavLink from '@/Components/NavLink';
 
-export default function GuestLayout({ children }) {
+export default function GuestLayout({ children, ...props }) {
+    let { auth } = usePage().props;
+
     return (
-        <div className="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0">
-            <div>
-                <Link href="/">
-                    <ApplicationLogo className="h-20 w-20 fill-current text-gray-500" />
-                </Link>
-            </div>
+        <>
+            <div className="bg-yellow-50 text-black/50 dark:bg-black dark:text-white/50 ">
+                <div className="relative flex min-h-screen flex-col items-center justify-between gap-4 selection:bg-[#000] selection:text-white">
+                    <header className="grid grid-cols-2 items-center justify-between gap-2 min-w-full p-10 my-grad">
+                        <div className="">
+                            <Link href="/">
+                                <ApplicationLogo className="h-20 w-20 fill-current text-gray-500" />
+                            </Link>
+                        </div>
+                        <nav className="-mx-3 flex flex-1 justify-end">
+                            {!!auth?.user ? (
+                                <NavLink
+                                    routeName="dashboard"
+                                >
+                                    لوحة التحكم
+                                </NavLink>
+                            ) : (
+                                <>
+                                    <NavLink
+                                        routeName="login"
+                                    >
+                                        تسجيل الدخول
+                                    </NavLink>
+                                    <NavLink
+                                        routeName="register"
+                                    >
+                                        تسجيل جديد
+                                    </NavLink>
+                                </>
+                            )}
+                        </nav>
+                    </header>
 
-            <div className='m-5 bg-white rounded-xl grid grid-cols-2 gap-3'>
-                <Link href={ route('register') } className={`${ route().current('register') ? 'active' :  '' } p-3 rounded-xl`}>
-                    تسجيل جديد 
-                </Link>
-                <Link href={ route('login') } className={`${ route().current('login')? 'active' : '' }  p-3 rounded-xl`}>
-                    تسجيل الدخول 
-                </Link>
-            </div>
+                    <main className="py-10 my-grad flex flex-col items-center justify-center p-6 gap-5 rounded-xl max-w-2xl px-6 lg:max-w-7x">
+                        {children}
+                    </main>
 
-            <div className="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
-                {children}
+                    <footer className='min-w-full'>
+                        <div className='w-full text-center my-grad py-10 text-xl'>
+                            تم التصميم والتطوير والاستضافة بواسطة <a href="https://aly-h-.com" className='font-bold italic underline text-blue-500'> علي حسين </a>
+                        </div>
+                    </footer>
+
+                </div>
             </div>
-        </div>
+        </>
     );
 }
