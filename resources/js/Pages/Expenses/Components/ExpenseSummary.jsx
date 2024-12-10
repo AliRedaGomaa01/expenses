@@ -37,6 +37,10 @@ export default function ExpenseSummary({ expenseData, filters, ...props }) {
                 <span className="text-green-700 font-bold"> {parseFloat(expenseData.averagePerDay * 365).toFixed(2)} </span>
                 للسنة
             </p>
+            <p className="text-lg font-medium text-gray-700 "> 
+              وسيتضح معدل انفاقك بدقة اكبر بعد مرور 30 يوما من التدوين
+              وسيصبح أكثر دقة يزيادة مدة التدوين 
+            </p>
         </div>
 
     );
