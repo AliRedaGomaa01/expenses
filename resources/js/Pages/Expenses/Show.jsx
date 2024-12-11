@@ -14,7 +14,7 @@ export default function Show(props) {
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    اضافة نفقات جديدة
+                  عرض نفقات يوم محدد
                 </h2>
             }
         >
