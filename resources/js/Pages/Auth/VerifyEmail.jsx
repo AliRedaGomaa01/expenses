@@ -13,7 +13,7 @@ export default function VerifyEmail({ status }) {
 
     return (
         <GuestLayout>
-            <Head title="Email Verification" />
+            <Head title="التحقق من البريد الالكتروني" />
 
             <div className="mb-4 text-sm text-gray-600">
                 شكرا لك للتسجيل. قبل البدء، يرجى التحقق من البريد الالكتروني المرسل لك؟

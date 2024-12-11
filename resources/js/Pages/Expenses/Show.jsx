@@ -18,7 +18,7 @@ export default function Show(props) {
                 </h2>
             }
         >
-            <Head title="اضافة نفقات جديدة" />
+            <Head title="عرض نفقات يوم محدد" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
