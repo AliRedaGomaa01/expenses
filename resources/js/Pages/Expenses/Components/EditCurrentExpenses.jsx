@@ -54,10 +54,10 @@ export default function EditCurrentExpenses({ expenses = [] , categories, ...pro
                         X
                     </div>
                     <div className="mt-4">
-                        <InputLabel htmlFor="name" value="اسم المشتريات" />
+                        <InputLabel htmlFor={"name"+id} value="اسم المشتريات" />
 
                         <TextInput
-                            id="name"
+                            id={"name"+id}
                             type="text"
                             name="name"
                             placeholder="مثال : فواكه - لحوم - شحن هاتف - دواء - تسوق - فواتير - طلبات ديليفري -  ..."
@@ -71,10 +71,10 @@ export default function EditCurrentExpenses({ expenses = [] , categories, ...pro
                     </div>
 
                     <div className="mt-4">
-                        <InputLabel htmlFor="price" value="سعر المشتريات" />
+                        <InputLabel htmlFor={"price"+id} value="سعر المشتريات" />
 
                         <TextInput
-                            id="price"
+                            id={"price"+id}
                             name="price"
                             type="number"
                             step="0.01"
@@ -89,9 +89,9 @@ export default function EditCurrentExpenses({ expenses = [] , categories, ...pro
                     </div>
 
                     <div className="mt-4">
-                        <InputLabel htmlFor="category_id" value="تصنيف المشتريات" />
+                        <InputLabel htmlFor={"category_id"+id} value="تصنيف المشتريات" />
 
-                        <select name="category_id" id="category_id" className="mt-1 block w-full"
+                        <select name="category_id" id={"category_id"+id} className="mt-1 block w-full"
                             onChange={(e) => setCurrentExpenses(prev => [...prev].map((item, idx) => { idx === index ? item['category_id'] = e.target.value : null; return item; }))}
                             required
                             value={category_id}

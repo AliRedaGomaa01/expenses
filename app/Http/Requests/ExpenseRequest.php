@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\CategoryEnum;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ExpenseRequest extends FormRequest
@@ -12,7 +13,7 @@ class ExpenseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        return isset(request()?->user()?->id) ;
     }
 
     /**
