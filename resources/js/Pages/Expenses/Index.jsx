@@ -24,9 +24,9 @@ export default function Index(props) {
 
                 <IndexSearch  searchType={ !!props?.dates?.data ? 'date' : 'expense'} categories={props.categories} filters={props.filters} />
                 
-                {!!props?.dates?.data && <IndexTable dates={props.dates} expenseData={props.expenseData} filters={props.filters}/>}
-
                 {!!props?.expenses?.data && <ExpenseTable expenses={props.expenses} expenseData={props.expenseData} filters={props.filters} categories={props.categories}/>}
+
+                {!!props?.dates?.data && <IndexTable dates={props.dates} expenseData={props.expenseData} filters={props.filters}/>}
 
             </div>
         </AuthenticatedLayout>
