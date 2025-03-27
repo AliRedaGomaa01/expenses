@@ -27,7 +27,7 @@ class ExpensesController extends Controller
     $expenses = Expenses::with(['date'])
       ->filters($filters)
       ->orderByRaw('(SELECT date FROM dates WHERE dates.id = expenses.date_id) DESC')
-      ->paginate(20);
+      ->paginate(20)->withQueryString();
 
     $expensesSum = Expenses::filters($filters)
       ->sum('price');

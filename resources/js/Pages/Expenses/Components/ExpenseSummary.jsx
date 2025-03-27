@@ -39,7 +39,7 @@ export default function ExpenseSummary({ expenseData, filters, ...props }) {
             </p>
             <p className="text-lg font-medium text-gray-700 "> 
               وسيتضح معدل انفاقك بدقة اكبر بعد مرور 30 يوما من التدوين
-              وسيصبح أكثر دقة يزيادة مدة التدوين 
+              وسيصبح أكثر دقة بزيادة مدة التدوين 
             </p>
         </div>
 

@@ -24,7 +24,7 @@ class DateController extends Controller
         $dates = Date::with(['expenses'])
             ->filters($filters)
             ->orderBy('date', 'desc')
-            ->paginate(20);
+            ->paginate(20)->withQueryString();
 
         $expensesSum = auth()->user()->dates()->filters($filters)
             ->with([
