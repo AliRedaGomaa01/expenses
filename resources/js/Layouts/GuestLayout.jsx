@@ -7,7 +7,7 @@ export default function GuestLayout({ children, ...props }) {
 
   return (
     <>
-      <div className="bg-yellow-50 text-black/50 dark:bg-black dark:text-white/50 ">
+      <div className="bg-yellow-50 text-black/50">
         <div className="relative flex min-h-screen flex-col items-center justify-between gap-10 selection:bg-[#000] selection:text-white">
           <header className="grid grid-cols-2 items-center justify-between gap-2 min-w-full p-10 my-grad">
             <div className="">
