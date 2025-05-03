@@ -17,15 +17,9 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
         <>
             <GuestLayout>
                 <Head title="الرئيسية" />
-                <h1 className="text-4xl font-extrabold text-gray-900 mb-4">مرحباً بك في تطبيق إدارة النفقات الشخصية!</h1>
+                <h1 className="text-4xl font-extrabold text-gray-900 mb-4">مرحباً بك في تطبيق إدارة جهات الاتصال!</h1>
                 <p className="text-xl text-gray-900 opacity-90 mb-6">
-                    هذا التطبيق سيساعدك على متابعة نفقاتك اليومية، وتنظيم ميزانيتك بطريقة بسيطة وفعّالة.
-                    <br />
-                    <br />
-                    من خلال تتبع المصاريف، يمكنك الحصول على نظرة واضحة على أموالك واتخاذ قرارات مالية أفضل.
-                    <br />
-                    <br />
-                    فقط سجل مصاريفك اليومية لمدة 3 شهور لتستطيع معرفة متوسط نفقتك في اليوم وفي الشهر وفي السنة. 
+                    هذا التطبيق سيساعدك على ادارة جهات اتصالك.
                 </p>
                 <div className="flex justify-center">
                     <Link href={route('register')} as='button' className="bg-teal-600 text-white py-2 px-6 rounded-xl shadow-md hover:bg-teal-700 transition duration-300">

@@ -4,11 +4,10 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -45,21 +44,15 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    # relations
-    public function dates()
+    # relationships
+    public function contacts()
     {
-        return $this->hasMany(Date::class);
-    }
-
-    public function expenses()
-    {
-        return $this->hasManyThrough(Expenses::class, Date::class, );
+        return $this->hasMany(Contact::class);
     }
 
     # overrides 
     public function delete()
     {
-        $this->dates()->delete();
         parent::delete();
     }
 }

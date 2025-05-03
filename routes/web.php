@@ -1,38 +1,31 @@
 <?php
 
-use App\Http\Controllers\DateController;
-use App\Http\Controllers\ExpensesController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
+  return Inertia::render('Welcome', [
+    'canLogin' => Route::has('login'),
+    'canRegister' => Route::has('register'),
+  ]);
 })->name('welcome');
 
 // Route::get('extract', [HomeController::class, 'extractBuildToPublic'])->name('extract');
 // Route::get('archive', [HomeController::class, 'archiveBuild'])->name('archive');
 // Route::get('test', [HomeController::class, 'test'])->name('test');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth'])->group(function () {
+  Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
 
-Route::middleware(['auth' , 'verified'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
-    Route::delete('expenses/delete-all', [ExpensesController::class , 'deleteAll'])->name('expenses.delete-all');
-    Route::post('expenses/seed', [ExpensesController::class , 'seed'])->name('expenses.seed');
-    Route::resource('expenses', ExpensesController::class)->only('index' , 'create', 'store', 'update' , 'destroy');
-    
-    Route::resource('date', DateController::class)->only('index', 'show');
+  Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+  Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+  Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+  Route::delete('contacts/delete-all', [ContactController::class, 'deleteAll'])->name('contacts.delete-all');
+  Route::post('contacts/seed', [ContactController::class, 'seed'])->name('contacts.seed');
+  Route::resource('contacts', ContactController::class)->only('index', 'create', 'store', 'update', 'destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

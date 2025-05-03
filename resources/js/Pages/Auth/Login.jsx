@@ -107,7 +107,7 @@ export default function Login({ status, canResetPassword }) {
                     </label>
                 </div>
 
-                <div className="mt-4 flex items-center justify-end">
+                <div className="mt-4 flex items-center justify-end gap-5">
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}

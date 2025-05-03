@@ -18,9 +18,9 @@ export default function AuthenticatedLayout({ header, children }) {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 justify-between">
               <div className="flex">
-                <div className="flex shrink-0 items-center">
+                <div className="flex shrink-0 items-center !w-16 !h-16">
                   <Link href="/">
-                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
+                    <ApplicationLogo />
                   </Link>
                 </div>
 
@@ -31,19 +31,14 @@ export default function AuthenticatedLayout({ header, children }) {
                     لوحة التحكم
                   </NavLink>
                   <NavLink
-                    routeName='expenses.create'
+                    routeName='contacts.index'
                   >
-                    اضافة نفقات جديدة
+                    عرض جهات الاتصال
                   </NavLink>
                   <NavLink
-                    routeName='date.index'
+                    routeName='contacts.create'
                   >
-                    جدول الأيام
-                  </NavLink>
-                  <NavLink
-                    routeName='expenses.index'
-                  >
-                    جدول المصاريف
+                    اضافة جهات الاتصال
                   </NavLink>
                 </div>
               </div>
@@ -150,22 +145,16 @@ export default function AuthenticatedLayout({ header, children }) {
                 لوحة التحكم
               </ResponsiveNavLink>
               <ResponsiveNavLink
-                href={route('expenses.create')}
-                active={route().current('expenses.create')}
+                href={route('contacts.index')}
+                active={route().current('contacts.index')}
               >
-                اضافة نفقات جديدة
+                عرض جهات الاتصال
               </ResponsiveNavLink>
               <ResponsiveNavLink
-                href={route('date.index')}
-                active={route().current('date.index')}
+                href={route('contacts.create')}
+                active={route().current('contacts.create')}
               >
-                جدول الأيام
-              </ResponsiveNavLink>
-              <ResponsiveNavLink
-                href={route('expenses.index')}
-                active={route().current('expenses.index')}
-              >
-                جدول المصاريف
+                اضافة جهات الاتصال
               </ResponsiveNavLink>
             </div>
 
